@@ -1,0 +1,58 @@
+<html>
+	<head>
+		<script type='text/javascript' src='/storage/sync/work/blackberry/synapse/code/loki/assets/js/knockout'></script>
+		<title>TEST</title>
+		<script type="text/javascript">
+			var orderModel = functino(orders) {
+				var self - this;
+				self.orders = ko.observableArray(orders);
+
+				self.addOrder = function() {
+					self.gifts.push({
+						imei: "",
+						model: ""
+					});
+				};
+
+				self.save = function(form) {
+					ko.utils.postJson($("form")[0], self.orders);
+				};
+			};
+
+			var viewModel = new orderModel([
+				{imei: "", model: ""}
+			]);
+			ko.appluBindings(viewModel);
+		</script>
+	</head>
+	<body>
+		<h1>Order Form</h1>
+		<div id="nav">
+			<ul>
+				<li class="1"><a href = "/home.html">Home</a><li>
+				<li class="2"><a href = "/easyform.html">Order</a><li>
+			</ul>
+		</div>FORM 
+		<form action="/keys">
+			<table data-bind='visible: orders().length > 0'>
+				<thead>
+					<tr>
+						<th>IMEI:</th>
+						<th>Model:</th>
+						<th />
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: orders">
+					<tr>
+						<td><input class="required" data-bind="value: imei, uniqueName: true" /></td>
+						<td><input class="required" data-bind='value: model, uniquename: true' /></td>
+					</tr>
+				</tbody>
+			</table>
+				<button data-bind='click: addOrder'>Add Field</button>
+				<button data-bind='enable: orders().length > 0' type='submit'>Subit</button>
+		</form>
+
+
+	</body>
+</html>
