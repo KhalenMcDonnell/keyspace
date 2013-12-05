@@ -5,3 +5,6 @@ http://stackoverflow.com/questions/17786547/get-request-from-app-with-http-basic
 http://hasin.me/2012/11/16/parsing-inbound-emails-with-mailgun-how-to/
 
 http://www.quietless.com/kitchen/building-a-login-system-in-node-js-and-mongodb/
+
+//this is for setting up session variables
+  https://github.com/visionmedia/express/blob/master/examples/auth/app.js
