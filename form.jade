@@ -1,0 +1,70 @@
+!!!
+html
+	head
+		title Order Form
+		script(type="text/javascript" src='/storage/sync/work/blackberry/synapse/code/loki/assets/js/knockout')
+			var orderModel = function(orders){
+				var self = this;
+				self.contacts = ko.observableArray(ko.utils.arrayMap(orders, function(order) {
+					return { userName: orders.userName, phones: ko.observableArray(order.phones) };
+					}));
+				self.addOrder = function() {
+					self.orders.push({
+						userName: "",
+						phones: ko.observableArray()
+					});
+				};
+
+				self.removeOrder = function(order) {
+					self.orders.remove(order);
+				};
+
+				self.addPhone = function(order) {
+					order.phones.push({
+						model: "",
+						IMEI: ""
+					});
+				};
+
+				self.removePhone = function(phone) {
+					$.each(self.orders(), function() { this.phones.remove(phone) })
+				};
+
+				self.save = function() {
+					self.lastSavedJson(JSON.stringify(ko.toJS(self.orders), null, 0));
+				};
+
+				self.lastSavedJson = ko.observable("")
+			};
+			ko.applyBindings(new orderModel());
+	body
+		h2 orders
+		div(id='ordersList')
+			form(action='/keys' method='post')
+				table(class='ordersEditor')
+					tr
+						th Username
+						th Phone Details
+					tbody(data-bind="foreach: orders")
+						tr
+							td
+								input(data-bind="value: userName")
+									div
+										a(href='#' data-bind="click: $root.removeOrder") Delete
+							td
+								table
+									tbody
+										tr
+											td
+												input(data-bind='value: model')
+											td
+												input(data-bind='value: IMEI')
+											td
+												a(href='#' data-bind="click: $root.removePhone") Delete
+								a(href='#' data-bind='click: $root.addPhone') Add IMEI
+				input(type='submit' value='submit')
+		p
+			button(data-bind='click: addOrder') Add an Order
+			button(data-bind='click: save, enable: orders().length > 0') Save to JSON
+
+		textarea(data-bind='value: lastSavedJson' rows='5' cols='60' disabled='disabled')
